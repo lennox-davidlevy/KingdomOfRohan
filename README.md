@@ -1,6 +1,7 @@
 # Moodvie
 
-Serving you movies based on your mood - Now Without(?) Merge Conflicts
+Serving you movies based on your mood
+
 
 ## Team
 
@@ -45,7 +46,7 @@ An unused component (client/components/RecList.jsx) and function (server/control
 - Body-Parser
 - Express
 - Mongoose
-- React 
+- React
 - React-dom
 - React-router-dom
 
