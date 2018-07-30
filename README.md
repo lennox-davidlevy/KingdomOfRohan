@@ -1,6 +1,6 @@
 # Moodvie
 
-Serving you movies based on your mood
+Serving you movies based on your mood - Now With Merge Conflicts
 
 ## Team
 
