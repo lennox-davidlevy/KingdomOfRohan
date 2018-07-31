@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import GlobalSearch from './components/GlobalSearch.jsx';
 import Profile_Search from './components/Profile_Search.jsx';
+import TreeMode from './components/Tree/TreeMode.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
@@ -95,6 +96,7 @@ class App extends React.Component {
                 <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
             <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
+          <TreeMode />
         </div>
       </BrowserRouter>
     );
