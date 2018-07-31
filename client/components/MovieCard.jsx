@@ -1,4 +1,5 @@
 import React from 'react';
+import HoverComponent from './HoverComponent.jsx';
 
 var MovieCard = (props) => {
   //defensive check to make sure a movie was passed as props before rendering a card
@@ -13,11 +14,13 @@ var MovieCard = (props) => {
           <img src={'https://image.tmdb.org/t/p/w500' + props.movie.poster_path} alt="Placeholder image" />
         </figure>
       </div>
+
+      <HoverComponent />
       <div className="card-content">
         <p className="is-size-6">{props.movie.original_title}</p>
         <p className="is-size-7">{props.movie.release_date}</p>
         <div className="tags content">
-          {moods.map((mood) => 
+          {moods.map((mood) =>
             <span className="tag is-primary" key={mood} >{mood}
             </span>
           )}
