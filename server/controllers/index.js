@@ -5,7 +5,7 @@ const axios = require('axios');
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
-let histSave = require('./../db/index').histSave
+let histSave = require('./../db/index').histSave;
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
 let API_KEY
@@ -14,6 +14,14 @@ try {
 } catch(err) {
   API_KEY = process.env.API_KEY
 }
+
+//mailer
+const { transporter, createMailer } = require('./nodeMailerHelper.jsx');
+const config = require('../../config.js');
+
+
+
+
 const helpers = require('./serverhelpers.js');
 const refreshRouter = require('./refreshRouter.js')
 
@@ -31,7 +39,7 @@ app.get('/search', (req, res) => {
       let filtered = helpers.filterResults(response.data.results);
       res.status(200).send(filtered);
     })
-    .catch((err) => console.log(err)); 
+    .catch((err) => console.log(err));
 });
 
 //takes in a movie object that contains an array of moods
@@ -43,8 +51,8 @@ app.post('/save', (req, res) => {
     else {
       histSave(req.body, (err, response) => {
         if (err) console.error(err)
-        else res.status(200).send(req.body); 
-      }) 
+        else res.status(200).send(req.body);
+      })
     }
   })
 });
@@ -55,7 +63,7 @@ app.post('/save', (req, res) => {
 app.get('/results/:moods?', (req, res) => {
   //creating an array with each mood that was sent with query
   var moods = req.query.moods.split(' ');
-  
+
   moodSearch(moods, function (err, data) {
     if (err) throw (err);
     res.send(data);
@@ -76,7 +84,7 @@ app.get('/users/history/:username?', (req, res) => {
 //gets the recommendations for a particular user based on their most recently watched movie
 app.get('/users/recs.:username', (req, res) => {
   console.log('Getting recs for: ', req.query.username);
-  
+
   //use helper function here to filter rec list that comes from DB
   fetchHist(req.query.username).then(history => helpers.filterRecs(history, function (err, data) {
     if (err) throw (err);
@@ -117,6 +125,23 @@ app.post('/signup', (req, res) => {
     }
   })
 })
+
+
+//mailer
+
+app.post('/sendEmail', (req, res) => {
+  var mailOptions = createMailer('lennox.davidlevy@gmail.com', 'final test before variables', '<p>happy happy JOY JOY JOY joy joy</p>');
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('email sent: ' + info.response);
+    }
+  });
+});
+
+
+
 
 
 //this route is used to handle the refresh button of the browser. With React Router front end,

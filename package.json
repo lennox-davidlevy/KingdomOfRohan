@@ -27,10 +27,12 @@
     "knex": "0.15.1",
     "mongoose": "^5.2.4",
     "mysql": "2.15.0",
+    "nodemailer": "^4.6.7",
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-router-dom": "^4.3.1",
-    "webpack-cli": "3.0.8"
+    "webpack-cli": "3.0.8",
+    "xoauth2": "^1.2.0"
   },
   "devDependencies": {
     "babel-core": "6.26.3",
