@@ -130,7 +130,7 @@ app.post('/signup', (req, res) => {
 
 //mailer
 
-app.post('/sendEmail', (req, res) => {
+app.post('/sendEmailExisting', (req, res) => {
   var mailOptions = createMailer('lennox.davidlevy@gmail.com', 'final test before variables', '<p>happy happy JOY JOY JOY joy joy</p>');
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
@@ -141,16 +141,49 @@ app.post('/sendEmail', (req, res) => {
   });
 });
 
+app.post('/sendEmailNew', (req, res) => {
+  console.log('New in server:', req.body);
+  // for (var i = 0; i < req.body.email.length; i++) {
+  //   var recipient = req.body.email[i];
+  //   var mailOptions = createMailer(recipient, `Someone wants to watch a movie with you!`, '<p>HOW LUCKY ARE YOU?</p>');
+  //   transporter.sendMail(mailOptions, (err, info) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log('email sent: ' + info.response);
+  //     }
+  //   });
+  // }
+});
+
+app.post('/sendEmailUser', (req, res) => {
+  console.log('Old in server:', req.body);
+  // for (var i = 0; i < req.body.email.length; i++) {
+  //   var recipient = req.body.email[i];
+  //   var mailOptions = createMailer(recipient, `at this time: ${req.body.time}`, '<p>loop test!</p>');
+  //   transporter.sendMail(mailOptions, (err, info) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log('email sent: ' + info.response);
+  //     }
+  //   });
+  // }
+});
+
+
+
+
 app.get('/checkUser', (req, res) => {
   checkUser(req.query.email, (response) => {
-    if(response === 0) {
+    if (response === 0) {
       res.send({
         exists: false
-      })
+      });
     } else {
       res.send({
         exists: true
-      })
+      });
     }
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DateTime from 'react-datetime';
+import moment from 'moment';
 import axios from 'axios';
 
 
@@ -14,11 +15,13 @@ class Schedule extends React.Component {
       date: '',
       existingUser: [],
       email: [],
-      value: ''
+      value: '',
+      message: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleEmailClick = this.handleEmailClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleDateChange(event) {
     this.setState({
@@ -28,7 +31,7 @@ class Schedule extends React.Component {
 
   handleChange(event) {
     event.preventDefault();
-    this.setState({value: event.target.value});
+    this.setState({[event.target.id]: event.target.value});
   }
 
   handleEmailClick() {
@@ -56,12 +59,35 @@ class Schedule extends React.Component {
     });
   }
 
+  handleSubmit() {
+    console.log('handleSubmit fired:', this.state.email);
+    if (this.state.existingUser.length > 0) {
+      axios.post('/sendEmailNew', {
+        email: this.state.existingUser,
+        time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a')
+      }).then((results) => {
+        console.log(results);
+      })
+      .catch((err) => console.error(err));
+    }
+    if (this.state.email.length > 0) {
+      axios.post('/sendEmailUser', {
+        email: this.state.email,
+        time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a')
+      }).then((results) => {
+        console.log(results);
+      })
+      .catch((err) => console.error(err));
+    }
+  }
+
+
 
 
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={() => this.handleSubmit()}>
           <p>When do you want to watch?</p>
           <DateTime
             value={this.state.date}
@@ -70,7 +96,9 @@ class Schedule extends React.Component {
             onBlur={this.handleDateChange}
           />
           <p>Do You Want To Invite Anyone?</p>
-          <input type='text' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
+          <input type='email' id='value' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
+          <button type="submit" >Submit</button>
+          <textarea id='message' value={this.state.message}></textarea>
         </form>
       </div>
     );
