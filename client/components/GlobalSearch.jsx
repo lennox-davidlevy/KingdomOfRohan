@@ -11,7 +11,8 @@ class GlobalSearch extends React.Component {
       dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
       moods: [],
       selected: 'whimsical',
-      movies: []
+      movies: [],
+      user: this.props.user
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -59,6 +60,7 @@ class GlobalSearch extends React.Component {
   }
 
   render() {
+    console.log('global search user props:', this.props.user);
     return (
       <div className="section">
         <div className="title is-title-4">Find a Moodvie to watch</div>
@@ -87,9 +89,9 @@ class GlobalSearch extends React.Component {
         </div>
 
         <div className="container">
-          {this.state.moods.length === 0 ? <div></div> : <Results movies={this.state.movies} />}
+          {this.state.moods.length === 0 ? <div></div> : <Results user={this.state.user} movies={this.state.movies} />}
         </div>
-        <Schedule />
+
       </div>
     );
   }

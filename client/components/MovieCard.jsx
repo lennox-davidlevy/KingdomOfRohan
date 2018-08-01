@@ -16,7 +16,7 @@ var MovieCard = (props) => {
         </figure>
       </div>
 
-      <HoverComponent movie={props.movie} />
+      <HoverComponent user={props.user} movie={props.movie} />
       <div className="card-content">
         <p className="is-size-6">{props.movie.original_title}</p>
         <p className="is-size-7">{props.movie.release_date}</p>

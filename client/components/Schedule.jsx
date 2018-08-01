@@ -16,13 +16,19 @@ class Schedule extends React.Component {
       existingUser: [],
       email: [],
       value: '',
-      message: ''
+      message: '',
+      user: this.props.user,
+      movie: this.props.movie,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleEmailClick = this.handleEmailClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  componentDidMount() {
+  }
+
   handleDateChange(event) {
     this.setState({
       date: event._d
@@ -64,7 +70,10 @@ class Schedule extends React.Component {
     if (this.state.existingUser.length > 0) {
       axios.post('/sendEmailNew', {
         email: this.state.existingUser,
-        time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a')
+        time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
+        message: this.state.message,
+        user: this.state.user,
+        movie: this.state.movie
       }).then((results) => {
         console.log(results);
       })
@@ -73,7 +82,10 @@ class Schedule extends React.Component {
     if (this.state.email.length > 0) {
       axios.post('/sendEmailUser', {
         email: this.state.email,
-        time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a')
+        time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
+        message: this.state.message,
+        user: this.state.user,
+        movie: this.state.movie
       }).then((results) => {
         console.log(results);
       })
@@ -97,12 +109,16 @@ class Schedule extends React.Component {
           />
           <p>Do You Want To Invite Anyone?</p>
           <input type='email' id='value' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
-          <button type="submit" >Submit</button>
-          <textarea id='message' value={this.state.message}></textarea>
+          <br></br>
+          <h5>Write a message!</h5>
+          <textarea id='message' value={this.state.message} onChange={this.handleChange}></textarea>
+          <br></br>
+          <button type="submit">Submit</button>
         </form>
       </div>
     );
   }
 }
+
 
 export default Schedule;
