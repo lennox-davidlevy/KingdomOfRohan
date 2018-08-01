@@ -173,15 +173,6 @@ const addSchedule = (movieTitle, poster, time, invitees, callback) => {
   })
 }
 
-
-
-// movie: String,
-// time: String,
-// invitees: [String],
-// cancelled: [String],
-
-
-
 //takes in a username (passed from server) and quries the db
 //hands back the history array from the received docs
 let fetchHist = async (un) => {

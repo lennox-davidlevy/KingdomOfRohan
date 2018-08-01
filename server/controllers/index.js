@@ -130,7 +130,7 @@ app.post('/signup', (req, res) => {
 
 
 
-//mailer
+//-----------------------Mailer-SPAM----------------------//
 
 app.post('/sendEmailNew', (req, res) => {
   var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
@@ -198,6 +198,10 @@ app.post('/updateSchedule', (req, res) => {
     console.log('server response from db:', response);
   });
 });
+
+app.get('/getSchedule', (req, res) => {
+
+})
 
 
 
