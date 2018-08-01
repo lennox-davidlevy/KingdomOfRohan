@@ -35,6 +35,8 @@ class Schedule extends React.Component {
     });
   }
 
+
+
   handleChange(event) {
     event.preventDefault();
     this.setState({[event.target.id]: event.target.value});
@@ -66,10 +68,7 @@ class Schedule extends React.Component {
   }
 
   handleSubmit() {
-
-
     if (this.state.existingUser.length > 0) {
-
       axios.post('/sendEmailUser', {
         email: this.state.existingUser,
         time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
@@ -97,6 +96,16 @@ class Schedule extends React.Component {
       })
       .catch((err) => console.error(err));
     }
+    let emails = this.state.existingUser.concat(this.state.email);
+    axios.post('/updateSchedule', {
+      movie: this.state.movie,
+      time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
+      invitees: emails
+    }).then((results) => {
+      console.log(results);
+    }).catch((err) => {
+      console.error(err);
+    });
   }
 
 
@@ -105,8 +114,9 @@ class Schedule extends React.Component {
 
 
 
-  render() {
 
+
+  render() {
     return (
       <div>
         <form>
@@ -129,6 +139,4 @@ class Schedule extends React.Component {
     );
   }
 }
-
-
 export default Schedule;

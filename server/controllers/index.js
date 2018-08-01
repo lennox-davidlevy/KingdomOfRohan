@@ -9,6 +9,7 @@ let histSave = require('./../db/index').histSave;
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
 const checkUser = require('./../db/index').checkUser;
+const addSchedule = require('./../db/index').addSchedule;
 let API_KEY
 try {
   API_KEY = require('../../config.js').API_KEY
@@ -141,17 +142,17 @@ app.post('/sendEmailNew', (req, res) => {
   } else {
     var user = req.body.user;
   }
-  for (var i = 0; i < req.body.email.length; i++) {
-    var recipient = req.body.email[i];
-    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('email sent: ' + info.response);
-      }
-    });
-  }
+  // for (var i = 0; i < req.body.email.length; i++) {
+  //   var recipient = req.body.email[i];
+  //   var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+  //   transporter.sendMail(mailOptions, (err, info) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log('email sent: ' + info.response);
+  //     }
+  //   });
+  // }
 });
 
 app.post('/sendEmailUser', (req, res) => {
@@ -164,17 +165,17 @@ app.post('/sendEmailUser', (req, res) => {
   } else {
     var user = req.body.user;
   }
-  for (var i = 0; i < req.body.email.length; i++) {
-    var recipient = req.body.email[i];
-    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('email sent: ' + info.response);
-      }
-    });
-  }
+  // for (var i = 0; i < req.body.email.length; i++) {
+  //   var recipient = req.body.email[i];
+  //   var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+  //   transporter.sendMail(mailOptions, (err, info) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log('email sent: ' + info.response);
+  //     }
+  //   });
+  // }
 });
 
 app.get('/checkUser', (req, res) => {
@@ -190,6 +191,20 @@ app.get('/checkUser', (req, res) => {
     }
   });
 });
+
+app.post('/updateSchedule', (req, res) => {
+  console.log('updateSched server fired');
+  var title = req.body.movie.original_title;
+  var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
+  var time = req.body.time;
+  var invitees = req.body.invitees;
+  addSchedule(title, poster, time, invitees, (response) => {
+    console.log('server response from db:', response);
+  });
+});
+
+
+
 
 //this route is used to handle the refresh button of the browser. With React Router front end,
 //this is necessary to enable refreshing of the page

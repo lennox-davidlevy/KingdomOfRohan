@@ -158,10 +158,27 @@ const checkUser = (email, callback) => {
   })
 }
 
-// const addSchedule = ()
+const addSchedule = (movieTitle, poster, time, invitees, callback) => {
+  console.log('addsched db fired');
+  let newSchedule = new Schedule({
+    movieTitle: movieTitle,
+    poster: poster,
+    time: time,
+    invitees: invitees
+  });
+  newSchedule.save((err) => {
+    if (err) {
+      callback(err)
+    }
+  })
+}
 
 
 
+// movie: String,
+// time: String,
+// invitees: [String],
+// cancelled: [String],
 
 
 
@@ -184,3 +201,4 @@ module.exports.save = save
 module.exports.histSave = histSave
 module.exports.fetchHist = fetchHist
 module.exports.moodSearch = moodSearch
+module.exports.addSchedule = addSchedule
