@@ -1,5 +1,6 @@
 import React from 'react';
 import HoverComponent from './HoverComponent.jsx';
+import Schedule from './Schedule.jsx';
 
 var MovieCard = (props) => {
   //defensive check to make sure a movie was passed as props before rendering a card
@@ -15,7 +16,7 @@ var MovieCard = (props) => {
         </figure>
       </div>
 
-      <HoverComponent />
+      <HoverComponent user={props.user} movie={props.movie} />
       <div className="card-content">
         <p className="is-size-6">{props.movie.original_title}</p>
         <p className="is-size-7">{props.movie.release_date}</p>
@@ -29,5 +30,6 @@ var MovieCard = (props) => {
     </div>
   );
 };
+
 
 export default MovieCard;
