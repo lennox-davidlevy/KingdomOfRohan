@@ -130,49 +130,52 @@ app.post('/signup', (req, res) => {
 
 //mailer
 
-app.post('/sendEmailExisting', (req, res) => {
-  var mailOptions = createMailer('lennox.davidlevy@gmail.com', 'final test before variables', '<p>happy happy JOY JOY JOY joy joy</p>');
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('email sent: ' + info.response);
-    }
-  });
-});
 
 app.post('/sendEmailNew', (req, res) => {
-  console.log('New in server:', req.body);
-  // for (var i = 0; i < req.body.email.length; i++) {
-  //   var recipient = req.body.email[i];
-  //   var mailOptions = createMailer(recipient, `Someone wants to watch a movie with you!`, '<p>HOW LUCKY ARE YOU?</p>');
-  //   transporter.sendMail(mailOptions, (err, info) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log('email sent: ' + info.response);
-  //     }
-  //   });
-  // }
+  var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
+  var time = req.body.time;
+  var title = req.body.movie.original_title;
+  var message = req.body.message || `Want to watch ${title} with me?`;
+  if (req.body.user === 'global') {
+    var user = 'Somebody';
+  } else {
+    var user = req.body.user;
+  }
+  for (var i = 0; i < req.body.email.length; i++) {
+    var recipient = req.body.email[i];
+    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('email sent: ' + info.response);
+      }
+    });
+  }
 });
 
 app.post('/sendEmailUser', (req, res) => {
-  console.log('Old in server:', req.body);
-  // for (var i = 0; i < req.body.email.length; i++) {
-  //   var recipient = req.body.email[i];
-  //   var mailOptions = createMailer(recipient, `at this time: ${req.body.time}`, '<p>loop test!</p>');
-  //   transporter.sendMail(mailOptions, (err, info) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log('email sent: ' + info.response);
-  //     }
-  //   });
-  // }
+  var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
+  var time = req.body.time;
+  var title = req.body.movie.original_title;
+  var message = req.body.message || `You have a new notification to watch ${title}!`;
+  if (req.body.user === 'global') {
+    var user = 'Somebody';
+  } else {
+    var user = req.body.user;
+  }
+  for (var i = 0; i < req.body.email.length; i++) {
+    var recipient = req.body.email[i];
+    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('email sent: ' + info.response);
+      }
+    });
+  }
 });
-
-
-
 
 app.get('/checkUser', (req, res) => {
   checkUser(req.query.email, (response) => {
@@ -187,17 +190,6 @@ app.get('/checkUser', (req, res) => {
     }
   });
 });
-
-
-
-
-
-
-
-
-
-
-
 
 //this route is used to handle the refresh button of the browser. With React Router front end,
 //this is necessary to enable refreshing of the page

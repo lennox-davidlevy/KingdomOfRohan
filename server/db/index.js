@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 let db = require('./models/index').db
 let User = require('./models/index').User
 let Movie = require('./models/index').Movie
+let Schedule = require('./models/index').Schedule
 
 //Queries db by username, fetches their password field, and hands off
 let authenticate = (username, cb) => {
@@ -34,7 +35,7 @@ let moodSearch = (moodArr, cb) => {
   .where(moodArr[1]).ne(undefined).sort({test: -1})
   .where(moodArr[2]).ne(undefined).sort({test: -1})
   .then(function (response) {
-    console.log ('Response: ', response.slice (0,4));
+    // console.log ('Response: ', response.slice (0,4));
     cb (null, response.slice(0, 4));
   })
 //  .catch (function (err) {
@@ -156,6 +157,8 @@ const checkUser = (email, callback) => {
     }
   })
 }
+
+// const addSchedule = ()
 
 
 

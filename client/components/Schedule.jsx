@@ -46,7 +46,7 @@ class Schedule extends React.Component {
         email: this.state.value
       }
     }).then((response) => {
-      console.log('handleEmailClick:', response.data.exists);
+
       if (response.data.exists) {
         this.setState({
           existingUser: this.state.existingUser.concat(this.state.value)
@@ -66,28 +66,34 @@ class Schedule extends React.Component {
   }
 
   handleSubmit() {
-    console.log('handleSubmit fired:', this.state.email);
+
+
     if (this.state.existingUser.length > 0) {
-      axios.post('/sendEmailNew', {
+
+      axios.post('/sendEmailUser', {
         email: this.state.existingUser,
         time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
         message: this.state.message,
         user: this.state.user,
         movie: this.state.movie
       }).then((results) => {
-        console.log(results);
+        this.setState({
+          message: ''
+        });
       })
       .catch((err) => console.error(err));
     }
     if (this.state.email.length > 0) {
-      axios.post('/sendEmailUser', {
+      axios.post('/sendEmailNew', {
         email: this.state.email,
         time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
         message: this.state.message,
         user: this.state.user,
         movie: this.state.movie
       }).then((results) => {
-        console.log(results);
+        this.setState({
+          message: ''
+        });
       })
       .catch((err) => console.error(err));
     }
@@ -96,10 +102,14 @@ class Schedule extends React.Component {
 
 
 
+
+
+
   render() {
+
     return (
       <div>
-        <form onSubmit={() => this.handleSubmit()}>
+        <form>
           <p>When do you want to watch?</p>
           <DateTime
             value={this.state.date}
@@ -111,9 +121,9 @@ class Schedule extends React.Component {
           <input type='email' id='value' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
           <br></br>
           <h5>Write a message!</h5>
-          <textarea id='message' value={this.state.message} onChange={this.handleChange}></textarea>
+          <textarea id='message' value={this.state.message} onChange={this.handleChange} placeholder={`Want to watch ${this.props.movie.original_title} with me?`}></textarea>
           <br></br>
-          <button type="submit">Submit</button>
+          <button type="button" onClick={()=> this.handleSubmit()}>Submit</button>
         </form>
       </div>
     );

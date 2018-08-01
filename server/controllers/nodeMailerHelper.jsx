@@ -12,7 +12,7 @@ var transporter = nodemailer.createTransport({
 
 var createMailer = (recipients, subject, contents) => {
   return {
-    from: EMAIL,
+    from: 'Moodvie <moodvie4you@gmail.com>',
     to: recipients,
     subject: subject,
     html: contents,
