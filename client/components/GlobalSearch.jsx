@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Results from './Results.jsx';
+import Schedule from './Schedule.jsx';
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -74,8 +75,8 @@ class GlobalSearch extends React.Component {
           </div>
         </div>
         <div className="container" style={{ margin: '15px' }} >
-          
-          { this.state.moods.length > 0 ? 
+
+          { this.state.moods.length > 0 ?
             <span className="subtitle">Our users found these movies to be </span> : null
           }
 
@@ -88,6 +89,7 @@ class GlobalSearch extends React.Component {
         <div className="container">
           {this.state.moods.length === 0 ? <div></div> : <Results movies={this.state.movies} />}
         </div>
+        <Schedule />
       </div>
     );
   }

@@ -16,6 +16,7 @@ class Schedule extends React.Component {
       email: [],
       value: ''
     };
+    this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleEmailClick = this.handleEmailClick.bind(this);
   }
@@ -24,24 +25,40 @@ class Schedule extends React.Component {
       date: event._d
     });
   }
+
   handleChange(event) {
+    event.preventDefault();
     this.setState({value: event.target.value});
   }
 
   handleEmailClick() {
-    axios.post('/checkEmail', {
+    axios.get('/checkUser', {
       params: {
         email: this.state.value
       }
-    })
-
+    }).then((response) => {
+      console.log('handleEmailClick:', response.data.exists);
+      if (response.data.exists) {
+        this.setState({
+          existingUser: this.state.existingUser.concat(this.state.value)
+        });
+      } else {
+        this.setState({
+          email: this.state.email.concat(this.state.value)
+        });
+      }
+    }).then(() => {
+      this.setState({
+        value: ''
+      });
+    }).catch((err) => {
+      console.error('db error!', err);
+    });
   }
 
 
 
-
   render() {
-    console.log(this.state.date);
     return (
       <div>
         <form>
@@ -53,12 +70,11 @@ class Schedule extends React.Component {
             onBlur={this.handleDateChange}
           />
           <p>Do You Want To Invite Anyone?</p>
-          <input type='email' value={this.state.value}></input><button onClick={}>+</button>
+          <input type='text' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
         </form>
       </div>
     );
   }
 }
 
-
-ReactDOM.render(<Schedule />, document.getElementById('sched'));
+export default Schedule;

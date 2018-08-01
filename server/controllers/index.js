@@ -8,6 +8,7 @@ let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave;
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
+const checkUser = require('./../db/index').checkUser;
 let API_KEY
 try {
   API_KEY = require('../../config.js').API_KEY
@@ -139,6 +140,25 @@ app.post('/sendEmail', (req, res) => {
     }
   });
 });
+
+app.get('/checkUser', (req, res) => {
+  checkUser(req.query.email, (response) => {
+    if(response === 0) {
+      res.send({
+        exists: false
+      })
+    } else {
+      res.send({
+        exists: true
+      })
+    }
+  });
+});
+
+
+
+
+
 
 
 
