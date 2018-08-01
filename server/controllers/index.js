@@ -129,8 +129,8 @@ app.post('/signup', (req, res) => {
 })
 
 
-//mailer
 
+//mailer
 
 app.post('/sendEmailNew', (req, res) => {
   var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
@@ -142,18 +142,16 @@ app.post('/sendEmailNew', (req, res) => {
   } else {
     var user = req.body.user;
   }
-  // for (var i = 0; i < req.body.email.length; i++) {
-  //   var recipient = req.body.email[i];
-  //   var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
-  //   transporter.sendMail(mailOptions, (err, info) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log('email sent: ' + info.response);
-  //     }
-  //   });
-  // }
+  var mailOptions = createMailer(req.body.email, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('email sent: ' + info.response);
+    }
+  });
 });
+
 
 app.post('/sendEmailUser', (req, res) => {
   var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
@@ -165,18 +163,16 @@ app.post('/sendEmailUser', (req, res) => {
   } else {
     var user = req.body.user;
   }
-  // for (var i = 0; i < req.body.email.length; i++) {
-  //   var recipient = req.body.email[i];
-  //   var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
-  //   transporter.sendMail(mailOptions, (err, info) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log('email sent: ' + info.response);
-  //     }
-  //   });
-  // }
+  var mailOptions = createMailer(req.body.email, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('email sent: ' + info.response);
+    }
+  });
 });
+
 
 app.get('/checkUser', (req, res) => {
   checkUser(req.query.email, (response) => {
