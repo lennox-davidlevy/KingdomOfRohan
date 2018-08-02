@@ -3,8 +3,8 @@
   display: flex;
   flex-wrap: nowrap;
   height: 70vh;
-  margin: 50px;
-  width: 80vw;
+  margin: 10vh 0 0 -10vw;
+  width: 90vw;
 }
 /* Button */
 .backButton {

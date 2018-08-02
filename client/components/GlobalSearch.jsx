@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Results from './Results.jsx';
+import TreeMode from './Tree/TreeMode.jsx';
 import Schedule from './Schedule.jsx';
 
 class GlobalSearch extends React.Component {
@@ -60,7 +61,7 @@ class GlobalSearch extends React.Component {
   }
 
   render() {
-    console.log('global search user props:', this.props.user);
+    //console.log('global search user props:', this.props.user);
     return (
       <div className="section">
         <div className="title is-title-4">Find a Moodvie to watch</div>
@@ -89,7 +90,18 @@ class GlobalSearch extends React.Component {
         </div>
 
         <div className="container">
-          {this.state.moods.length === 0 ? <div></div> : <Results user={this.state.user} movies={this.state.movies} />}
+          {
+            this.state.moods.length === 0
+              ? <div></div>
+              : ( <div>
+                    <Results movies={this.state.movies} />
+                    <TreeMode 
+                      moods={this.state.moods}
+                      currentMovie={this.state.movies[0]}
+                    />
+                  </div>
+                )
+          }
         </div>
 
       </div>

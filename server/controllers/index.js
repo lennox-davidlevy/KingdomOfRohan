@@ -1,5 +1,6 @@
 const express = require('express');
 let app = express();
+const fs = require('fs');
 const parser = require('body-parser');
 const axios = require('axios');
 let authenticate = require('./../db/index').authenticate
@@ -9,10 +10,14 @@ let histSave = require('./../db/index').histSave;
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
 const checkUser = require('./../db/index').checkUser;
+
 const addSchedule = require('./../db/index').addSchedule;
 const getSchedule = require('./../db/index').getSchedule;
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+
+const pullDataFromCSV = require('../../client/components/Tree/helpers/pullDataFromCSV.js');
+
 let API_KEY
 try {
   API_KEY = require('../../config.js').API_KEY
@@ -67,6 +72,18 @@ app.post('/save', (req, res) => {
       })
     }
   })
+});
+
+// tree component is requesting csv file information
+// example url: localhost:8080/csv/?mood=intense
+
+app.get('/csv/:mood?', (req, res) => {
+  let mood = req.query.mood;
+
+  pullDataFromCSV(`../data/movies/${mood}Movies.csv`, (err, data) => {
+    if (err) res.status(500).send(err);
+    else res.setMaxListeners(201).send(data);
+  });
 });
 
 //*******Global Querying by Mood*******
