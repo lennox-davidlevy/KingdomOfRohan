@@ -69,6 +69,7 @@ class Schedule extends React.Component {
   }
 
   handleSubmit() {
+    this.props.closeModal();
     if (this.state.existingUser.length > 0) {
       axios.post('/sendEmailUser', {
         email: this.state.existingUser,
@@ -112,7 +113,8 @@ class Schedule extends React.Component {
 
   render() {
     return (
-      <div>
+      <div class="form-style-6">
+        <h1>Schedule A Time To Watch!</h1>
         <form>
           <p>When do you want to watch?</p>
           <DateTime
@@ -122,10 +124,10 @@ class Schedule extends React.Component {
             onBlur={this.handleDateChange}
           />
           <p>Do You Want To Invite Anyone?</p>
-          <input type='email' id='value' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
+          <input name="noAutofill" type="email" id='value' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
           <br></br>
           <h5>Write a message!</h5>
-          <textarea id='message' value={this.state.message} onChange={this.handleChange} placeholder={`Want to watch ${this.props.movie.original_title} with me?`}></textarea>
+          <textarea type="text" id='message' value={this.state.message} onChange={this.handleChange} placeholder={`Want to watch ${this.props.movie.original_title} with me?`}></textarea>
           <br></br>
           <button type="button" onClick={()=> this.handleSubmit()}>Submit</button>
         </form>

@@ -11,13 +11,19 @@ class MovieCard extends React.Component {
     this.state = {
       renderOptions: false,
     };
-    this.showOptions = this.showOptions.bind(this);
+    this.onShowOptions = this.onShowOptions.bind(this);
+    this.onHideOptions = this.onHideOptions.bind(this);
   }
 
 
-  showOptions() {
+  onShowOptions() {
     this.setState({
-      renderOptions: !this.state.renderOptions
+      renderOptions: true
+    });
+  }
+  onHideOptions() {
+    this.setState({
+      renderOptions: false
     });
   }
 
@@ -33,7 +39,7 @@ class MovieCard extends React.Component {
     return (
       <div>
 
-        <div onMouseEnter={() => this.showOptions()} onMouseLeave={() => this.showOptions()} className="card">
+        <div onMouseEnter={() => this.onShowOptions()} onMouseLeave={() => this.onHideOptions()} className="card">
 
           <div className="card-image">
 
