@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import DateTime from 'react-datetime';
 import moment from 'moment';
 import axios from 'axios';
+import SchedulePage from './SchedulePage.jsx';
 
 
 
@@ -35,6 +36,8 @@ class Schedule extends React.Component {
     });
   }
 
+
+
   handleChange(event) {
     event.preventDefault();
     this.setState({[event.target.id]: event.target.value});
@@ -66,10 +69,8 @@ class Schedule extends React.Component {
   }
 
   handleSubmit() {
-
-
+    this.props.closeModal();
     if (this.state.existingUser.length > 0) {
-
       axios.post('/sendEmailUser', {
         email: this.state.existingUser,
         time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
@@ -97,18 +98,23 @@ class Schedule extends React.Component {
       })
       .catch((err) => console.error(err));
     }
+
+    let emails = this.state.existingUser.concat(this.state.email).concat(this.state.user);
+    axios.post('/updateSchedule', {
+      movie: this.state.movie,
+      time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
+      invitees: emails
+    }).then((results) => {
+      console.log(results);
+    }).catch((err) => {
+      console.error(err);
+    });
   }
 
-
-
-
-
-
-
   render() {
-
     return (
-      <div>
+      <div class="form-style-6">
+        <h1>Schedule A Time To Watch!</h1>
         <form>
           <p>When do you want to watch?</p>
           <DateTime
@@ -118,10 +124,10 @@ class Schedule extends React.Component {
             onBlur={this.handleDateChange}
           />
           <p>Do You Want To Invite Anyone?</p>
-          <input type='email' id='value' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
+          <input name="noAutofill" type="email" id='value' value={this.state.value} onChange={this.handleChange}></input><button type="button" onClick={ () => this.handleEmailClick()}>+</button>
           <br></br>
           <h5>Write a message!</h5>
-          <textarea id='message' value={this.state.message} onChange={this.handleChange} placeholder={`Want to watch ${this.props.movie.original_title} with me?`}></textarea>
+          <textarea type="text" id='message' value={this.state.message} onChange={this.handleChange} placeholder={`Want to watch ${this.props.movie.original_title} with me?`}></textarea>
           <br></br>
           <button type="button" onClick={()=> this.handleSubmit()}>Submit</button>
         </form>
@@ -129,6 +135,7 @@ class Schedule extends React.Component {
     );
   }
 }
+
 
 
 export default Schedule;

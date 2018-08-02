@@ -148,6 +148,8 @@ let histSave = (info, cb) => {
 }
 
 
+
+//------------------Schedule---------------------//
 const checkUser = (email, callback) => {
   User.count({username: email}, (err, count) => {
     if(err) {
@@ -158,12 +160,30 @@ const checkUser = (email, callback) => {
   })
 }
 
-// const addSchedule = ()
+const addSchedule = (movieTitle, poster, time, invitees, callback) => {
+  console.log('addsched db fired');
+  let newSchedule = new Schedule({
+    movieTitle: movieTitle,
+    poster: poster,
+    time: time,
+    invitees: invitees
+  });
+  newSchedule.save((err) => {
+    if (err) {
+      callback(err)
+    }
+  })
+}
 
-
-
-
-
+const getSchedule = (user, callback) => {
+  Schedule.find({invitees: user}, (err, docs) => {
+    if(err) {
+      callback(err)
+    } else {
+      callback(docs)
+    }
+  })
+}
 
 //takes in a username (passed from server) and quries the db
 //hands back the history array from the received docs
@@ -184,3 +204,5 @@ module.exports.save = save
 module.exports.histSave = histSave
 module.exports.fetchHist = fetchHist
 module.exports.moodSearch = moodSearch
+module.exports.addSchedule = addSchedule
+module.exports.getSchedule = getSchedule

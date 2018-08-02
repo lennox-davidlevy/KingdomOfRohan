@@ -7,7 +7,11 @@ import TreeMode from './components/Tree/TreeMode.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
+
+import SchedulePage from './components/SchedulePage.jsx';
+
 import WN from "./components/watchNow.jsx";
+
 import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
@@ -23,9 +27,32 @@ class App extends React.Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.getAuthentication = this.getAuthentication.bind(this);
   }
 
 
+  componentDidMount() {
+    this.getAuthentication();
+  }
+
+
+
+
+  getAuthentication() {
+    console.log('getAuthentication did fire');
+    axios.get('/authenticate')
+    .then(resp => {
+      console.log('getAuth resp:', resp.data);
+      if (resp.data.status) {
+
+        this.setState({
+          loggedIn: true,
+          user: resp.data.user
+        });
+      }
+    })
+    .catch(err => console.log('bad response'));
+  }
 
   handleSignUp(username, password) {
     console.log('signing up with: ', username, password);
@@ -34,7 +61,7 @@ class App extends React.Component {
         console.log('signed up successfully!');
         this.setState({
           loggedIn: true,
-          user: username
+          user: response.data.username,
         });
         console.log('Current logged in User: ', this.state.user, 'bool', this.state.loggedIn)
       })
@@ -47,10 +74,12 @@ class App extends React.Component {
     console.log('logging in with: ', username, password);
     axios.post('/login', { username: username, password: password })
       .then((response) => {
-        if (response.data) {
+        console.log('handleLogin response', response.data.username)
+        if (response.data.username) {
+          console.log('handleLogin resoonse data:', response.data);
           this.setState({
             loggedIn: true,
-            user: username,
+            user: response.data.username,
             loginError: false
           });
         } else {
@@ -75,7 +104,12 @@ class App extends React.Component {
           <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/global" />} />
+
+
+            <Route path="/schedule" render={() => <SchedulePage user={this.state.user}/>} />
+
             <Route path="/global" render={() => { return <div><GlobalSearch user={this.state.user} /> </div>}} />
+
             <Route path="/profile" render={() => (
               this.state.loggedIn ? (
                 <Profile_Search user={this.state.user} />

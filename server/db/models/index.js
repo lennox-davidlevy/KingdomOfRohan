@@ -55,7 +55,8 @@ let MovieSchema = mongoose.Schema ({
 
 let ScheduleSchema = mongoose.Schema ({
   id: Number,
-  movie: String,
+  movieTitle: String,
+  poster: String,
   time: String,
   invitees: [String],
   cancelled: [String],

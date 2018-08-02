@@ -10,7 +10,14 @@ let histSave = require('./../db/index').histSave;
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
 const checkUser = require('./../db/index').checkUser;
+
+const addSchedule = require('./../db/index').addSchedule;
+const getSchedule = require('./../db/index').getSchedule;
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
 const pullDataFromCSV = require('../../client/components/Tree/helpers/pullDataFromCSV.js');
+
 let API_KEY
 try {
   API_KEY = require('../../config.js').API_KEY
@@ -31,6 +38,13 @@ const refreshRouter = require('./refreshRouter.js')
 //********middleware and plugins*********
 app.use(parser.json());
 app.use(express.static(__dirname + '/../../dist'));
+app.use(cookieParser());
+app.use(session({
+  secret: 'secret!',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {maxAge: 6000000}
+}));
 
 //*******GET/POST section*******
 
@@ -122,7 +136,10 @@ app.post('/login', (req, res) => {
       if (data === null) {
         res.send(false)
       } else if (Object.keys(data).length > 1 && data.password === req.body.password) {
-        res.send(true)
+        req.session.regenerate(() => {
+          req.session.username = username;
+          res.send(req.session);
+        })
       } else {
         res.send(false)
       }
@@ -130,20 +147,40 @@ app.post('/login', (req, res) => {
   })
 })
 
+
+
+
 //runs the signup function with info provided from an object from client
 //sends back OK on success
 app.post('/signup', (req, res) => {
   signup({username: req.body.username, password: req.body.password}, (err, response) => {
     if (err) console.log(err)
     else {
-      res.send()
+      req.session.regenerate(() => {
+        req.session.username = req.body.username;
+        res.send(req.session);
+      })
     }
   })
 })
 
 
-//mailer
+app.get('/authenticate', (req, res) => {
+  //authenticate session
+  res.send({
+    status: req.session.username ? !!req.session.username : false,
+    user: req.session.username || null
+  });
+});
 
+app.post('/logout', (req, res) => {
+  //destroy session
+  req.session.destroy();
+});
+
+
+
+//-----------------------Mailer-SPAM----------------------//
 
 app.post('/sendEmailNew', (req, res) => {
   var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
@@ -155,18 +192,16 @@ app.post('/sendEmailNew', (req, res) => {
   } else {
     var user = req.body.user;
   }
-  for (var i = 0; i < req.body.email.length; i++) {
-    var recipient = req.body.email[i];
-    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('email sent: ' + info.response);
-      }
-    });
-  }
+  var mailOptions = createMailer(req.body.email, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('email sent: ' + info.response);
+    }
+  });
 });
+
 
 app.post('/sendEmailUser', (req, res) => {
   var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
@@ -178,18 +213,16 @@ app.post('/sendEmailUser', (req, res) => {
   } else {
     var user = req.body.user;
   }
-  for (var i = 0; i < req.body.email.length; i++) {
-    var recipient = req.body.email[i];
-    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('email sent: ' + info.response);
-      }
-    });
-  }
+  var mailOptions = createMailer(req.body.email, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('email sent: ' + info.response);
+    }
+  });
 });
+
 
 app.get('/checkUser', (req, res) => {
   checkUser(req.query.email, (response) => {
@@ -205,10 +238,35 @@ app.get('/checkUser', (req, res) => {
   });
 });
 
+
+app.post('/updateSchedule', (req, res) => {
+  console.log('updateSched server fired');
+  var title = req.body.movie.original_title;
+  var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
+  var time = req.body.time;
+  var invitees = req.body.invitees;
+  addSchedule(title, poster, time, invitees, (response) => {
+    console.log('server response from db:', response);
+  });
+});
+
+app.get('/getSchedule', (req, res) => {
+  console.log('server user:', req.query.user);
+  getSchedule(req.query.user, (results) => {
+    res.send(results);
+  });
+
+});
+
+
+
+
+
 app.get('/price', (req, res) => {
   axios.get('https://itunes.apple.com/search?term='+req.query.term+'&entity=movie')
   .then(response => res.send(response.data));
 });
+
 
 //this route is used to handle the refresh button of the browser. With React Router front end,
 //this is necessary to enable refreshing of the page
