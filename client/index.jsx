@@ -7,6 +7,7 @@ import TreeMode from './components/Tree/TreeMode.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
+import WN from "./components/watchNow.jsx";
 import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
@@ -24,7 +25,7 @@ class App extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  
+
 
   handleSignUp(username, password) {
     console.log('signing up with: ', username, password);
@@ -74,7 +75,7 @@ class App extends React.Component {
           <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/global" />} />
-            <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
+            <Route path="/global" render={() => { return <div><GlobalSearch user={this.state.user} /> </div>}} />
             <Route path="/profile" render={() => (
               this.state.loggedIn ? (
                 <Profile_Search user={this.state.user} />
@@ -96,7 +97,7 @@ class App extends React.Component {
                 <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
             <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
-          
+
         </div>
       </BrowserRouter>
     );
