@@ -30,7 +30,7 @@ class App extends React.Component {
     this.getAuthentication = this.getAuthentication.bind(this);
   }
 
-<<<<<<< HEAD
+
   componentDidMount() {
     this.getAuthentication();
   }
@@ -53,9 +53,6 @@ class App extends React.Component {
     })
     .catch(err => console.log('bad response'));
   }
-=======
-
->>>>>>> legacyDev
 
   handleSignUp(username, password) {
     console.log('signing up with: ', username, password);
@@ -107,12 +104,12 @@ class App extends React.Component {
           <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/global" />} />
-<<<<<<< HEAD
-            <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
+
+
             <Route path="/schedule" render={() => <SchedulePage user={this.state.user}/>} />
-=======
+
             <Route path="/global" render={() => { return <div><GlobalSearch user={this.state.user} /> </div>}} />
->>>>>>> legacyDev
+
             <Route path="/profile" render={() => (
               this.state.loggedIn ? (
                 <Profile_Search user={this.state.user} />
