@@ -8,7 +8,27 @@ import './styles/TreeMode.css';
 export default class TreeMode extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      prevSelection: [],
+      currentSelection: '',
+      subSelections: [],
+      subSubSelections: []
+    }
+    this.handleMoodChange = this.handleMoodChange.bind(this);
+  }
 
+  handleMoodChange() {
+    this.setState({ currentSelection: this.props.moods[0] });
+  }
+
+  componentDidMount(){
+    this.handleMoodChange();
+  }
+
+  componentDidUpdate(prevProps){
+    if (prevProps.props.moods !== this.props.moods) {
+      this.handleMoodChange();
+    }
   }
 
   render() {

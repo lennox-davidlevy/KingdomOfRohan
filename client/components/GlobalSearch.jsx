@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Results from './Results.jsx';
+import TreeMode from './Tree/TreeMode.jsx';
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -86,7 +87,15 @@ class GlobalSearch extends React.Component {
         </div>
 
         <div className="container">
-          {this.state.moods.length === 0 ? <div></div> : <Results movies={this.state.movies} />}
+          {
+            this.state.moods.length === 0 
+              ? <div></div> 
+              : ( <div>
+                    <Results movies={this.state.movies} />
+                    <TreeMode mood={this.state.moods}/>
+                  </div>
+                )
+          }
         </div>
       </div>
     );
