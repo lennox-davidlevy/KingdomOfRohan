@@ -148,6 +148,8 @@ let histSave = (info, cb) => {
 }
 
 
+
+//------------------Schedule---------------------//
 const checkUser = (email, callback) => {
   User.count({username: email}, (err, count) => {
     if(err) {
@@ -173,6 +175,16 @@ const addSchedule = (movieTitle, poster, time, invitees, callback) => {
   })
 }
 
+const getSchedule = (user, callback) => {
+  Schedule.find({invitees: user}, (err, docs) => {
+    if(err) {
+      callback(err)
+    } else {
+      callback(docs)
+    }
+  })
+}
+
 //takes in a username (passed from server) and quries the db
 //hands back the history array from the received docs
 let fetchHist = async (un) => {
@@ -193,3 +205,4 @@ module.exports.histSave = histSave
 module.exports.fetchHist = fetchHist
 module.exports.moodSearch = moodSearch
 module.exports.addSchedule = addSchedule
+module.exports.getSchedule = getSchedule

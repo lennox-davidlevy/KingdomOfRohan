@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import DateTime from 'react-datetime';
 import moment from 'moment';
 import axios from 'axios';
+import SchedulePage from './SchedulePage.jsx';
 
 
 
@@ -96,7 +97,8 @@ class Schedule extends React.Component {
       })
       .catch((err) => console.error(err));
     }
-    let emails = this.state.existingUser.concat(this.state.email);
+
+    let emails = this.state.existingUser.concat(this.state.email).concat(this.state.user);
     axios.post('/updateSchedule', {
       movie: this.state.movie,
       time: moment(this.state.date).format('MMMM Do YYYY, h:mm:ss a'),
@@ -131,4 +133,7 @@ class Schedule extends React.Component {
     );
   }
 }
+
+
+
 export default Schedule;

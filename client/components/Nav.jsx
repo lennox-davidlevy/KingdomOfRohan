@@ -10,6 +10,8 @@ var Nav = (props) => {
           <span><b>Moodvie</b></span>
           <Link to="/global">Mood Search</Link>
           <Link to="/profile">Profile</Link>
+          <Link to="/schedule">Schedule</Link>
+
           <Link onClick={props.handleLogout} to="/logout">Logout</Link>
         </ul>
       </div>

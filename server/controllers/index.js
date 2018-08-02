@@ -10,6 +10,7 @@ let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
 const checkUser = require('./../db/index').checkUser;
 const addSchedule = require('./../db/index').addSchedule;
+const getSchedule = require('./../db/index').getSchedule;
 let API_KEY
 try {
   API_KEY = require('../../config.js').API_KEY
@@ -200,8 +201,12 @@ app.post('/updateSchedule', (req, res) => {
 });
 
 app.get('/getSchedule', (req, res) => {
+  console.log('server user:', req.query.user);
+  getSchedule(req.query.user, (results) => {
+    res.send(results);
+  });
 
-})
+});
 
 
 
