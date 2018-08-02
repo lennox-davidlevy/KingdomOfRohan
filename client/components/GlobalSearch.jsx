@@ -61,7 +61,7 @@ class GlobalSearch extends React.Component {
   }
 
   render() {
-    console.log('global search user props:', this.props.user);
+    //console.log('global search user props:', this.props.user);
     return (
       <div className="section">
         <div className="title is-title-4">Find a Moodvie to watch</div>
@@ -95,7 +95,10 @@ class GlobalSearch extends React.Component {
               ? <div></div>
               : ( <div>
                     <Results movies={this.state.movies} />
-                    <TreeMode mood={this.state.moods}/>
+                    <TreeMode 
+                      moods={this.state.moods}
+                      currentMovie={this.state.movies[0]}
+                    />
                   </div>
                 )
           }
