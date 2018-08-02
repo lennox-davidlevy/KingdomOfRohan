@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 let db = require('./models/index').db
 let User = require('./models/index').User
 let Movie = require('./models/index').Movie
+let Schedule = require('./models/index').Schedule
 
 //Queries db by username, fetches their password field, and hands off
 let authenticate = (username, cb) => {
@@ -19,7 +20,7 @@ let signup = (info, cb) => {
         history: [null]
     });
     user.save();
-    cb(null) 
+    cb(null)
 }
 //Basic moodSearch query that takes a set of moods,
 //queries the Movie database for the moods passed
@@ -34,7 +35,7 @@ let moodSearch = (moodArr, cb) => {
   .where(moodArr[1]).ne(undefined).sort({test: -1})
   .where(moodArr[2]).ne(undefined).sort({test: -1})
   .then(function (response) {
-    console.log ('Response: ', response.slice (0,4));
+    // console.log ('Response: ', response.slice (0,4));
     cb (null, response.slice(0, 4));
   })
 //  .catch (function (err) {
@@ -47,7 +48,7 @@ let moodSearch = (moodArr, cb) => {
 //    }
 //    cb (response.slice(0, 4));
 //  })
-  
+
 }
 
 //Queries GlobalMovies db by title (info is object passed from server)
@@ -136,15 +137,33 @@ let histSave = (info, cb) => {
             })
             if (!dupeFound) {
                 newHist.push(info)
-            } 
+            }
            if (newHist[0] === null) newHist = newHist.slice(1)
             User.findOneAndUpdate({username: docs.username}, {history: newHist}, (err, response) => {
                 if (err) cb(err)
-                else cb(null) 
+                else cb(null)
             })
         }
     })
 }
+
+
+const checkUser = (email, callback) => {
+  User.count({username: email}, (err, count) => {
+    if(err) {
+      callback(err);
+    } else {
+      callback(count);
+    }
+  })
+}
+
+// const addSchedule = ()
+
+
+
+
+
 
 //takes in a username (passed from server) and quries the db
 //hands back the history array from the received docs
@@ -153,6 +172,12 @@ let fetchHist = async (un) => {
     return data.history
 }
 
+
+
+
+
+
+module.exports.checkUser = checkUser
 module.exports.authenticate = authenticate
 module.exports.signup = signup
 module.exports.save = save

@@ -1,7 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import Results from './Results.jsx';
+<<<<<<< HEAD
 import TreeMode from './Tree/TreeMode.jsx';
+=======
+import Schedule from './Schedule.jsx';
+>>>>>>> c576d2b8a44bdafbccf31ae3c04286090d944b6b
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -11,7 +15,8 @@ class GlobalSearch extends React.Component {
       dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
       moods: [],
       selected: 'whimsical',
-      movies: []
+      movies: [],
+      user: this.props.user
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -59,6 +64,7 @@ class GlobalSearch extends React.Component {
   }
 
   render() {
+    console.log('global search user props:', this.props.user);
     return (
       <div className="section">
         <div className="title is-title-4">Find a Moodvie to watch</div>
@@ -75,8 +81,8 @@ class GlobalSearch extends React.Component {
           </div>
         </div>
         <div className="container" style={{ margin: '15px' }} >
-          
-          { this.state.moods.length > 0 ? 
+
+          { this.state.moods.length > 0 ?
             <span className="subtitle">Our users found these movies to be </span> : null
           }
 
@@ -97,6 +103,7 @@ class GlobalSearch extends React.Component {
                 )
           }
         </div>
+
       </div>
     );
   }

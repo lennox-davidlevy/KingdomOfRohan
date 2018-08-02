@@ -8,6 +8,7 @@ let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave;
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
+const checkUser = require('./../db/index').checkUser;
 let API_KEY
 try {
   API_KEY = require('../../config.js').API_KEY
@@ -129,20 +130,66 @@ app.post('/signup', (req, res) => {
 
 //mailer
 
-app.post('/sendEmail', (req, res) => {
-  var mailOptions = createMailer('lennox.davidlevy@gmail.com', 'final test before variables', '<p>happy happy JOY JOY JOY joy joy</p>');
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err);
+
+app.post('/sendEmailNew', (req, res) => {
+  var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
+  var time = req.body.time;
+  var title = req.body.movie.original_title;
+  var message = req.body.message || `Want to watch ${title} with me?`;
+  if (req.body.user === 'global') {
+    var user = 'Somebody';
+  } else {
+    var user = req.body.user;
+  }
+  for (var i = 0; i < req.body.email.length; i++) {
+    var recipient = req.body.email[i];
+    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('email sent: ' + info.response);
+      }
+    });
+  }
+});
+
+app.post('/sendEmailUser', (req, res) => {
+  var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
+  var time = req.body.time;
+  var title = req.body.movie.original_title;
+  var message = req.body.message || `You have a new notification to watch ${title}!`;
+  if (req.body.user === 'global') {
+    var user = 'Somebody';
+  } else {
+    var user = req.body.user;
+  }
+  for (var i = 0; i < req.body.email.length; i++) {
+    var recipient = req.body.email[i];
+    var mailOptions = createMailer(recipient, `${user} wants to watch a movie with you!`, `<img src="${poster}"/> <p>${user} wants to watch <strong>${title}</strong> with you at ${time}, what do you say?</p> <p>Their message: ${message}</p>`);
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('email sent: ' + info.response);
+      }
+    });
+  }
+});
+
+app.get('/checkUser', (req, res) => {
+  checkUser(req.query.email, (response) => {
+    if (response === 0) {
+      res.send({
+        exists: false
+      });
     } else {
-      console.log('email sent: ' + info.response);
+      res.send({
+        exists: true
+      });
     }
   });
 });
-
-
-
-
 
 //this route is used to handle the refresh button of the browser. With React Router front end,
 //this is necessary to enable refreshing of the page
