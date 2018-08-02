@@ -96,7 +96,7 @@ class App extends React.Component {
                 <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
             <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
-          <TreeMode />
+          
         </div>
       </BrowserRouter>
     );
