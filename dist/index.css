@@ -217,3 +217,16 @@ td.rdtYear:hover {
 .rdtTime td {
   cursor: default;
 }
+
+.options {
+  position: absolute;
+  top: 30%;
+  left: 13%;
+  z-index: 10;
+  width: 10vw;
+}
+
+.button.is-primary {
+  width: 10vw;
+  margin: 2px;
+}

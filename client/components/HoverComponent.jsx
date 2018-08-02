@@ -3,10 +3,13 @@ import Schedule from './Schedule.jsx';
 
 var HoverComponent = (props) => {
   return (
-    <div>
-      <p>See Similar</p>
-      <p>Watch Now</p>
-      <p><Schedule user={props.user} movie={props.movie}/></p>
+    <div className="options">
+      <a class="button is-primary">See Similar!</a>
+      <a class="button is-primary">Watch Now!</a>
+      <a class="button is-primary">Watch Later!</a>
+      {/* <p>See Similar</p>
+      <p>Watch Now</p> */}
+      {/* <div><Schedule user={props.user} movie={props.movie}/></div> */}
     </div>
   );
 };
