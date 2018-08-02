@@ -205,6 +205,11 @@ app.get('/checkUser', (req, res) => {
   });
 });
 
+app.get('/price', (req, res) => {
+  axios.get('https://itunes.apple.com/search?term='+req.query.term+'&entity=movie')
+  .then(response => res.send(response.data));
+});
+
 //this route is used to handle the refresh button of the browser. With React Router front end,
 //this is necessary to enable refreshing of the page
 app.use('/', refreshRouter);
