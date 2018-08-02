@@ -7,7 +7,11 @@ import TreeMode from './components/Tree/TreeMode.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
+
 import SchedulePage from './components/SchedulePage.jsx';
+
+import WN from "./components/watchNow.jsx";
+
 import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
@@ -26,6 +30,7 @@ class App extends React.Component {
     this.getAuthentication = this.getAuthentication.bind(this);
   }
 
+<<<<<<< HEAD
   componentDidMount() {
     this.getAuthentication();
   }
@@ -48,6 +53,9 @@ class App extends React.Component {
     })
     .catch(err => console.log('bad response'));
   }
+=======
+
+>>>>>>> legacyDev
 
   handleSignUp(username, password) {
     console.log('signing up with: ', username, password);
@@ -99,8 +107,12 @@ class App extends React.Component {
           <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/global" />} />
+<<<<<<< HEAD
             <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
             <Route path="/schedule" render={() => <SchedulePage user={this.state.user}/>} />
+=======
+            <Route path="/global" render={() => { return <div><GlobalSearch user={this.state.user} /> </div>}} />
+>>>>>>> legacyDev
             <Route path="/profile" render={() => (
               this.state.loggedIn ? (
                 <Profile_Search user={this.state.user} />
@@ -122,7 +134,7 @@ class App extends React.Component {
                 <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
             <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
-          
+
         </div>
       </BrowserRouter>
     );
