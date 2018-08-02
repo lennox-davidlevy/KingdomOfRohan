@@ -11,6 +11,8 @@ let moodSearch = require('./../db/index').moodSearch
 const checkUser = require('./../db/index').checkUser;
 const addSchedule = require('./../db/index').addSchedule;
 const getSchedule = require('./../db/index').getSchedule;
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 let API_KEY
 try {
   API_KEY = require('../../config.js').API_KEY
@@ -31,6 +33,13 @@ const refreshRouter = require('./refreshRouter.js')
 //********middleware and plugins*********
 app.use(parser.json());
 app.use(express.static(__dirname + '/../../dist'));
+app.use(cookieParser());
+app.use(session({
+  secret: 'secret!',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {maxAge: 6000000}
+}));
 
 //*******GET/POST section*******
 
@@ -110,7 +119,10 @@ app.post('/login', (req, res) => {
       if (data === null) {
         res.send(false)
       } else if (Object.keys(data).length > 1 && data.password === req.body.password) {
-        res.send(true)
+        req.session.regenerate(() => {
+          req.session.username = username;
+          res.send(req.session);
+        })
       } else {
         res.send(false)
       }
@@ -118,16 +130,36 @@ app.post('/login', (req, res) => {
   })
 })
 
+
+
+
 //runs the signup function with info provided from an object from client
 //sends back OK on success
 app.post('/signup', (req, res) => {
   signup({username: req.body.username, password: req.body.password}, (err, response) => {
     if (err) console.log(err)
     else {
-      res.send()
+      req.session.regenerate(() => {
+        req.session.username = req.body.username;
+        res.send(req.session);
+      })
     }
   })
 })
+
+
+app.get('/authenticate', (req, res) => {
+  //authenticate session
+  res.send({
+    status: req.session.username ? !!req.session.username : false,
+    user: req.session.username || null
+  });
+});
+
+app.post('/logout', (req, res) => {
+  //destroy session
+  req.session.destroy();
+});
 
 
 
