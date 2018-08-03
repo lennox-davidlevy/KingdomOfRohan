@@ -309,3 +309,17 @@ td.rdtYear:hover {
 .form-style-6 input[type="button"]:hover{
     background: #2EBC99;
 }
+
+.invitees-box {
+  background-color: lightgrey;
+  width: 20vw;
+}
+
+.movie-poster {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+img.movie-poster:hover {
+  box-shadow: 10px 10px;
+}

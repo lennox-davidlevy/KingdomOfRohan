@@ -18,17 +18,17 @@ export default class TreeMode extends React.Component {
       currentMovie: '',
       treeContents: {},
       csvData: {}
-      
+
     }
     this.handleMoodChange = this.handleMoodChange.bind(this);
     this.getCSV_Data = this.getCSV_Data.bind(this);
   }
 
   getCSV_Data(mood) {
-    console.log('component:MOOD:', mood)
+    // console.log('component:MOOD:', mood)
     axios.get(`/csv/?mood=${mood}`)
       .then(response => {
-        console.log('response.data',response.data);
+        // console.log('response.data',response.data);
         this.setState=({ csvData: response.data })
       })
       .catch(err => console.error(err));
@@ -49,7 +49,7 @@ export default class TreeMode extends React.Component {
   componentWillReceiveProps(){
     this.setState({ currentMood: this.props.moods[0] });
     this.setState({ currentMovie: this.props.currentMovie });
-    
+
   }
 
   render() {

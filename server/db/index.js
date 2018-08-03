@@ -176,6 +176,7 @@ const addSchedule = (movieTitle, poster, time, invitees, callback) => {
 }
 
 const getSchedule = (user, callback) => {
+  console.log('getSchedFired!');
   Schedule.find({invitees: user}, (err, docs) => {
     if(err) {
       callback(err)

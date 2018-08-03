@@ -94,8 +94,8 @@ class GlobalSearch extends React.Component {
             this.state.moods.length === 0
               ? <div></div>
               : ( <div>
-                    <Results movies={this.state.movies} />
-                    <TreeMode 
+                    <Results movies={this.state.movies} user={this.state.user} />
+                    <TreeMode
                       moods={this.state.moods}
                       currentMovie={this.state.movies[0]}
                     />

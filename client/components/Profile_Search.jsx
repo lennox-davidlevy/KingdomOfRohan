@@ -37,7 +37,7 @@ class Profile_Search extends React.Component {
   //after clicking search the corresponding array of movie objects (results) is sent to state in movies
   handleSearchClick(e) {
     e.preventDefault();
-    //empties input field after search 
+    //empties input field after search
     this.formRef.reset();
     //change movieCard display to change back to original search display
     this.setState({giveMoodButtons: false});
@@ -67,7 +67,7 @@ class Profile_Search extends React.Component {
     let params = { username };
     axios.get('/users/history/', { params })
       .then((response) => {
-        console.log(response.data);
+
         let history = response.data.reverse();
         if (history === null) history = [];
         this.setState({ history });
@@ -75,11 +75,11 @@ class Profile_Search extends React.Component {
       .catch(err => console.log('Error getting user history: ', err));
   }
 
-  
+
   getUserRecs(username) {
     let params = { username };
     axios.get('/users/recs/', { params })
-      .then((response) => {   
+      .then((response) => {
         this.setState({ recs: response.data });
       })
       .catch(err => console.log('Error getting user history: ', err));

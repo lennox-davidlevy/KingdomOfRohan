@@ -2,7 +2,7 @@ import React from 'react';
 import MovieCard from './MovieCard.jsx';
 
 var Results = (props) => {
-  //console.log('results props:', props);
+  // console.log('results props:', props);
   return (
     <div className="container is-fluid">
       <div className="columns is-multiline">

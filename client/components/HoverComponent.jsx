@@ -1,6 +1,7 @@
 import React from 'react';
 import Schedule from './Schedule.jsx';
 import Modal from 'react-responsive-modal';
+import TreeMode from './Tree/TreeMode.jsx';
 
 class HoverComponent extends React.Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class HoverComponent extends React.Component {
         <a onClick={ () => this.onOpenWatchNowModal() }class="button is-primary">Watch Now!</a>
         <a onClick={ () => this.onOpenWatchLaterModal() }class="button is-primary">Watch Later!</a>
         <Modal open={this.state.similarModalOpen} onClose={this.onCloseSimilarModal} center>
-          <h1>SEE SIMILAR TREE!</h1>
+          {/* <TreeMode/> */}
         </Modal>
         <Modal open={this.state.watchNowModalOpen} onClose={this.onCloseWatchNowModal} center>
           <h1>SEE WATCH NOW OPTIONS!</h1>

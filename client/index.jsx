@@ -39,10 +39,10 @@ class App extends React.Component {
 
 
   getAuthentication() {
-    console.log('getAuthentication did fire');
+
     axios.get('/authenticate')
     .then(resp => {
-      console.log('getAuth resp:', resp.data);
+
       if (resp.data.status) {
 
         this.setState({
@@ -71,12 +71,12 @@ class App extends React.Component {
   }
 
   handleLogin(username, password) {
-    console.log('logging in with: ', username, password);
+
     axios.post('/login', { username: username, password: password })
       .then((response) => {
-        console.log('handleLogin response', response.data.username)
+
         if (response.data.username) {
-          console.log('handleLogin resoonse data:', response.data);
+
           this.setState({
             loggedIn: true,
             user: response.data.username,

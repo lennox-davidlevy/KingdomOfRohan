@@ -34,6 +34,7 @@ class MovieCard extends React.Component {
 
 
   render() {
+
     let moods = this.props.movie.moods || [];
     if (this.props.movie === null) return (<div></div>);
     return (

@@ -251,12 +251,13 @@ app.post('/updateSchedule', (req, res) => {
 });
 
 app.get('/getSchedule', (req, res) => {
-  console.log('server user:', req.query.user);
   getSchedule(req.query.user, (results) => {
     res.send(results);
   });
-
 });
+
+
+
 
 
 
