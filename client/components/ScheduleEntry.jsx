@@ -6,17 +6,17 @@ const ScheduleEntry = (props) => {
     return (
       <div className="schedule-box">
         <div className="invitees-box">
-          <ul>
+          <ul id="invitee-ul">
             {item.invitees.map((user) => {
               return (
-                <li>{user}</li>
+                <li id="invitee-li">{user}</li>
               );
             })}
           </ul>
         </div>
-        <p>{item.movieTitle}</p>
+        <h1 id="movie-title">{item.movieTitle}</h1>
         <img className="movie-poster" src={item.poster}/>
-        <p>{item.time}</p>
+        <h1 id="movie-time">{item.time}</h1>
       </div>
     );
   });
