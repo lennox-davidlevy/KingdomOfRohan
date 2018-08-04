@@ -1,5 +1,6 @@
 import React from 'react';
 import Schedule from './Schedule.jsx';
+import WatchNow from './watchNow.jsx';
 import Modal from 'react-responsive-modal';
 
 class HoverComponent extends React.Component {
@@ -28,6 +29,7 @@ class HoverComponent extends React.Component {
     this.setState({
       similarModalOpen: false
     });
+    this.props.onHideOptions();
   }
 
   onOpenWatchNowModal() {
@@ -40,6 +42,7 @@ class HoverComponent extends React.Component {
     this.setState({
       watchNowModalOpen: false
     });
+    this.props.onHideOptions();
   }
 
   onOpenWatchLaterModal() {
@@ -52,6 +55,8 @@ class HoverComponent extends React.Component {
     this.setState({
       watchLaterModalOpen: false
     });
+    this.props.onHideOptions();
+
   }
 
 
@@ -68,15 +73,15 @@ class HoverComponent extends React.Component {
           <h1>SEE SIMILAR TREE!</h1>
         </Modal>
         <Modal open={this.state.watchNowModalOpen} onClose={this.onCloseWatchNowModal} center>
-          <h1>SEE WATCH NOW OPTIONS!</h1>
+          <WatchNow movie={this.props.movie} />
         </Modal>
         <Modal open={this.state.watchLaterModalOpen} onClose={this.onCloseWatchLaterModal} center>
           <Schedule user={this.props.user} movie={this.props.movie} closeModal={this.onCloseWatchLaterModal}/>
         </Modal>
         {/* <p>See Similar</p>
           <p>Watch Now</p> */}
-          {/* <div><Schedule user={this.props.user} movie={this.props.movie}/></div> */}
-        </div>
+        {/* <div><Schedule user={this.props.user} movie={this.props.movie}/></div> */}
+      </div>
     );
   }
 

@@ -340,3 +340,15 @@ td.rdtYear:hover {
 .form-style-6 input[type="button"]:hover {
   background: #2EBC99;
 }
+
+.wnLink {
+  margin-top: 25px !important;
+}
+
+#wnTitle {
+  padding-top: 35px;
+}
+
+#watchNow {
+  justify-content: center;
+}

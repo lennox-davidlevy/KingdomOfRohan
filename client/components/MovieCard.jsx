@@ -48,7 +48,7 @@ class MovieCard extends React.Component {
 
               <img src={'https://image.tmdb.org/t/p/w500' + this.props.movie.poster_path} alt="Placeholder image" />
               {this.state.renderOptions &&
-                <HoverComponent user={this.props.user} movie={this.props.movie} />
+                <HoverComponent user={this.props.user} movie={this.props.movie} onHideOptions={this.onHideOptions}/>
               }
             </figure>
           </div>
