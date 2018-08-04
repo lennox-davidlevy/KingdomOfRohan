@@ -1,7 +1,11 @@
 import React from 'react';
 import Schedule from './Schedule.jsx';
+import WatchNow from './watchNow.jsx';
 import Modal from 'react-responsive-modal';
 import TreeMode from './Tree/TreeMode.jsx';
+import './Tree/styles/TreeMode.css';
+
+
 
 class HoverComponent extends React.Component {
   constructor(props) {
@@ -29,6 +33,7 @@ class HoverComponent extends React.Component {
     this.setState({
       similarModalOpen: false
     });
+    this.props.onHideOptions();
   }
 
   onOpenWatchNowModal() {
@@ -41,6 +46,7 @@ class HoverComponent extends React.Component {
     this.setState({
       watchNowModalOpen: false
     });
+    this.props.onHideOptions();
   }
 
   onOpenWatchLaterModal() {
@@ -53,11 +59,9 @@ class HoverComponent extends React.Component {
     this.setState({
       watchLaterModalOpen: false
     });
+    this.props.onHideOptions();
+
   }
-
-
-
-
 
   render() {
     return (
@@ -65,19 +69,28 @@ class HoverComponent extends React.Component {
         <a onClick={ () => this.onOpenSimilarModal() } class="button is-primary">See Similar!</a>
         <a onClick={ () => this.onOpenWatchNowModal() }class="button is-primary">Watch Now!</a>
         <a onClick={ () => this.onOpenWatchLaterModal() }class="button is-primary">Watch Later!</a>
-        <Modal open={this.state.similarModalOpen} onClose={this.onCloseSimilarModal} center>
-          {/* <TreeMode/> */}
+
+        <Modal
+          // className='treeModal'
+          open={this.state.similarModalOpen}
+          onClose={this.onCloseSimilarModal}
+          // center
+        >
+          <TreeMode
+            moods={this.props.moods}
+          />
+
         </Modal>
         <Modal open={this.state.watchNowModalOpen} onClose={this.onCloseWatchNowModal} center>
-          <h1>SEE WATCH NOW OPTIONS!</h1>
+          <WatchNow movie={this.props.movie} />
         </Modal>
         <Modal open={this.state.watchLaterModalOpen} onClose={this.onCloseWatchLaterModal} center>
           <Schedule user={this.props.user} movie={this.props.movie} closeModal={this.onCloseWatchLaterModal}/>
         </Modal>
         {/* <p>See Similar</p>
           <p>Watch Now</p> */}
-          {/* <div><Schedule user={this.props.user} movie={this.props.movie}/></div> */}
-        </div>
+        {/* <div><Schedule user={this.props.user} movie={this.props.movie}/></div> */}
+      </div>
     );
   }
 

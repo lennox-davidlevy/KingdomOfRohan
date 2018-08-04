@@ -32,7 +32,6 @@ class GlobalSearch extends React.Component {
 
     //dynamically query the database based on each mood added
     this.handleSearch();
-
   }
 
   //function that takes the chosen moods in the global search,
@@ -94,10 +93,10 @@ class GlobalSearch extends React.Component {
             this.state.moods.length === 0
               ? <div></div>
               : ( <div>
-                    <Results movies={this.state.movies} user={this.state.user} />
-                    <TreeMode
-                      moods={this.state.moods}
-                      currentMovie={this.state.movies[0]}
+
+                    <Results movies={this.state.movies} user={this.state.user} moods={this.state.moods} moods={this.state.moods} />
+
+
                     />
                   </div>
                 )

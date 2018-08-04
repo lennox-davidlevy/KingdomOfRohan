@@ -337,6 +337,7 @@ td.rdtYear:hover {
 }
 
 .form-style-6 input[type="submit"]:hover,
+
 .form-style-6 input[type="button"]:hover{
     background: #2EBC99;
 }
@@ -438,4 +439,17 @@ h1.accepteds {
     font-family: monospace;
     font-size: 20px;
     font-weight: bolder;
+}
+
+
+.wnLink {
+  margin-top: 25px !important;
+}
+
+#wnTitle {
+  padding-top: 35px;
+}
+
+#watchNow {
+  justify-content: center;
 }

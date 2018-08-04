@@ -8,7 +8,7 @@ var Results = (props) => {
       <div className="columns is-multiline">
         {props.movies.length !== 0 ? props.movies.map((movie) => {
           return (<div className="column is-one-fifth">
-            <MovieCard user={props.user} movie={movie} />
+            <MovieCard user={props.user} movie={movie} moods={props.moods}/>
           </div>)
         })
           :

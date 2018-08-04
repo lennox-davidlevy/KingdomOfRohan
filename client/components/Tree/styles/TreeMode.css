@@ -1,59 +1,121 @@
 
-.tree_wrapper{
-  display: flex;
-  flex-wrap: nowrap;
-  height: 70vh;
-  margin: 10vh 0 0 -10vw;
+
+.main {
+  background: rgba(209, 209, 205, 0.6);
+  border-radius: 5px;
+  height: 90vh;
+  left: 5%;
+  margin: 0 auto;
+  padding: 0;
+  position: fixed;
+  top: 7%;
   width: 90vw;
 }
-/* Button */
-.backButton {
+
+.header {
   align-items: center;
+  box-shadow: 3px 3px 3px rgb(48, 47, 47);
+  color: rgb(235, 225, 225);
   display: flex;
-  flex-grow: 1;
+  font-size: 3.0vw;
+  font-weight: bold;
+  height: 10vh;
   justify-content: space-evenly;
- }
- .prevSelection{
-  background: rgb(209, 209, 205);
-  border: 1px solid black;
-  border-radius: 50%;
-  color: maroon;
-  font-size: 2vw;
-  padding: 5px 15px 10px;
+  text-shadow: 2px 2px 2px rgb(48, 47, 47);
 }
-/* Button END */
 
- #Main {
-   align-items: center;
-   background: rgb(209, 209, 205);
-   border: 1px solid black;
-   display: flex;
-   justify-content: space-evenly;
-   flex-grow: 4;
-
- }
- #Sub {
-   align-items: center;
-    background: rgb(209, 209, 205);
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 4;
-    justify-content: space-evenly;
- }
- #SubSub {
-   align-items: center;
-    background: rgb(209, 209, 205);
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 6;
-    flex-wrap: nowrap;
- }
- .sm_flex_wrapper{
+.media {
   align-items: center;
+  color: rgb(14, 12, 12);
   display: flex;
-  height: 25%;
-  width: 80%;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 1.8vw;
+  font-weight: bold;
+  height: 80vh;
+  justify-content: space-evenly
 }
+
+/* Header Items */
+.mood {
+  font-size: 5vw;
+  text-shadow: 2px 2px 2px rgb(48, 47, 47);
+}
+.back {
+  background: rgb(85, 83, 83);
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(48, 47, 47);
+  color: rgb(235, 225, 225);
+  font-size: 2.2vw;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px rgb(48, 47, 47);
+}
+.movieCtr {
+  color: #80B5B9;
+}
+.playCtr {
+  color: #F5E97B;
+}
+.songCtr {
+  color: #DF5148;
+}
+.bookCtr {
+  color: #B1CD66;
+}
+.reshuffle {
+  background: rgb(85, 83, 83);
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(48, 47, 47);
+  color: rgb(235, 225, 225);
+  font-size: 2.2vw;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px rgb(48, 47, 47);
+}
+/* End Header Items */
+
+/* Media Items */
+
+.movies {
+  background: rgba(128, 181, 185, 0.8);
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(48, 47, 47);
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+.songs {
+  background: rgba(223, 82, 72, 0.8);
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(48, 47, 47);
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+.books {
+  background: rgba(178, 205, 102, 0.8);
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(48, 47, 47);
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+.plays {
+  background: rgba(245, 233, 123, 0.8);
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(48, 47, 47);
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+p {
+
+}
+
+/* End Media Items */

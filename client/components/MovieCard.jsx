@@ -39,7 +39,6 @@ class MovieCard extends React.Component {
     if (this.props.movie === null) return (<div></div>);
     return (
       <div>
-
         <div onMouseEnter={() => this.onShowOptions()} onMouseLeave={() => this.onHideOptions()} className="card">
 
           <div className="card-image">
@@ -49,7 +48,12 @@ class MovieCard extends React.Component {
 
               <img src={'https://image.tmdb.org/t/p/w500' + this.props.movie.poster_path} alt="Placeholder image" />
               {this.state.renderOptions &&
-                <HoverComponent user={this.props.user} movie={this.props.movie} />
+                <HoverComponent 
+                  user={this.props.user} 
+                  movie={this.props.movie} 
+                  moods={this.props.moods}
+                  onHideOptions={this.onHideOptions}
+                />
               }
             </figure>
           </div>

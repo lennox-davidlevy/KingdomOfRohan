@@ -41,17 +41,19 @@ class App extends React.Component {
   getAuthentication() {
 
     axios.get('/authenticate')
+
     .then(resp => {
 
       if (resp.data.status) {
 
-        this.setState({
-          loggedIn: true,
-          user: resp.data.user
-        });
-      }
-    })
-    .catch(err => console.log('bad response'));
+
+          this.setState({
+            loggedIn: true,
+            user: resp.data.user
+          });
+        }
+      })
+      .catch(err => console.log('bad response'));
   }
 
   handleSignUp(username, password) {
