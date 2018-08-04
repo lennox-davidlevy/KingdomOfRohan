@@ -1,12 +1,10 @@
 
 import React from 'react';
 import axios from 'axios';
-import Tree_Lg_Movie from './Tree_Lg_Movie.jsx';
-import Tree_Med_Movie from './Tree_Med_Movie.jsx';
-import Tree_Sm_Movie from './Tree_Sm_Movie.jsx';
-import {generateFreshTreeContent} from './helpers/manageTreeArrays.js';
 
-import {regenerateTreeContent} from './helpers/manageTreeArrays.js';
+import generateFirstTreeContent from './helpers/generateFirstTreeContent.js';
+import reshuffleTree from './helpers/reshuffleTree.js';
+import restorePrevContents from './helpers/restorePrevContents.js';
 import './styles/TreeMode.css';
 
 export default class TreeMode extends React.Component {
@@ -15,86 +13,99 @@ export default class TreeMode extends React.Component {
     this.state = {
       treeItemSelected: '',
       currentMood: null,
-      currentMovie: '',
       treeContents: {},
-      csvData: {}
+      moodData: {},
+      isContent: false
       
     }
+    this.clickedReshuffle = this.clickedReshuffle.bind(this);
+    this.clickedBackButton = this.clickedBackButton.bind(this);
     this.handleMoodChange = this.handleMoodChange.bind(this);
     this.getCSV_Data = this.getCSV_Data.bind(this);
   }
 
+  clickedBackButton(e) {
+    e.preventDefault();
+    if (this.state.treeContents.previousTree) {
+      if (this.state.treeContents.previousTree.length > 0) {
+        let newTree = restorePrevContents(this.state.treeContents);
+        this.setState({treeContents: newTree});
+      }
+    }
+  }
+
+  clickedReshuffle(e) {
+    e.preventDefault();
+    let newTree = reshuffleTree(this.state.treeContents);
+    this.setState({treeContents: newTree});
+  }
+
   getCSV_Data(mood) {
-    console.log('component:MOOD:', mood)
+    
     axios.get(`/csv/?mood=${mood}`)
       .then(response => {
-        console.log('response.data',response.data);
-        this.setState=({ csvData: response.data })
+        this.setState({ moodData: response.data });
+
+        generateFirstTreeContent(
+          this.state.moodData
+          , this.state.treeContents
+          , (tree) => {
+            
+            this.setState({treeContents: tree});
+            this.setState(prevState => ({
+              isContent: !prevState.isContent
+            }));
+          } 
+        )
       })
       .catch(err => console.error(err));
   }
 
   handleMoodChange() {
-    this.setState({ currentMood: this.props.moods[0] });
-  }
-
-  componentDidUpdate(nextProps, nextState){
-    if (this.props.currentMovie !== '[]') {
-      this.getCSV_Data(this.props.moods[0]);
-      //let tree = generateFreshTreeContent(this.props.moods[0], this.props.currentMovie);
-    }
+    this.setState({ currentMood: this.props.moods[this.props.moods.length - 1] });
   }
 
 
-  componentWillReceiveProps(){
-    this.setState({ currentMood: this.props.moods[0] });
-    this.setState({ currentMovie: this.props.currentMovie });
-    
+  componentWillMount(){
+    this.setState({ currentMood: this.props.moods[this.props.moods.length - 1] });
+    this.getCSV_Data(this.props.moods[this.props.moods.length - 1]);
   }
 
   render() {
     return (
-      <div className="tree_wrapper">
-
-        <div className="backButton">
-          <button className="prevSelection">
-          {"<-"}
-          </button>
-        </div>
-
-        <div id="Main">
-          <Tree_Lg_Movie />
-        </div>
-
-        <div id="Sub">
-          <Tree_Med_Movie />
-          <Tree_Med_Movie />
-        </div>
-
-        <div id="SubSub">
-          <div className="sm_flex_wrapper">
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
+      this.state.isContent
+      ? (
+        <div className="main">
+          <div className="header">
+            <button 
+              className="back"
+              onClick={this.clickedBackButton}
+            >previous</button>
+            <div className="playCtr">Plays</div>
+            <div className="bookCtr">Books</div>
+            <div className="mood">{this.state.currentMood}</div>
+            <div className="movieCtr">Movies</div>
+            <div className="songCtr">Songs</div>
+            <button 
+              className="reshuffle"
+              onClick={this.clickedReshuffle}
+            >reshuffle</button>
           </div>
-          <div className="sm_flex_wrapper">
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
-          </div>
-          <div className="sm_flex_wrapper">
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
-          </div>
-          <div className="sm_flex_wrapper">
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
-            <Tree_Sm_Movie />
+
+          <div className="media">
+            {
+              this.state.treeContents.currentData.map( (each, index) => {
+                return (
+                  <div key={index} className={each.type}>
+                    <p>{each.title}</p>
+                    <p>{each.author}</p>
+                </div>
+                )
+              })
+            }
           </div>
         </div>
-
-      </div>
+      ) : ''
     )
   }
 }
