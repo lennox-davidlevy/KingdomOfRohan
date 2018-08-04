@@ -59,6 +59,7 @@ let ScheduleSchema = mongoose.Schema ({
   poster: String,
   time: String,
   invitees: [String],
+  accepted: [String],
   cancelled: [String],
 });
 

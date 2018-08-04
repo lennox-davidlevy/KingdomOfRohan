@@ -10,7 +10,7 @@ var UserHistory = (props) => {
         <p className="has-text-grey">Recently Added</p>
         {props.history.map((movie) => {
           return (
-            <div className="cotainer" style={{ margin: '15px' }} >
+            <div style={{ margin: '15px' }} >
               <MovieCard movie={movie} />
             </div>
           );

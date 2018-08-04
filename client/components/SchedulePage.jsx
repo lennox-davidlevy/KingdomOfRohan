@@ -8,23 +8,15 @@ class SchedulePage extends React.Component {
     super(props);
     this.state = {
       schedule: [],
-      // invitees: [],
-      // confirmed: [],
-      // cancelled: [],
-      // movieTitle: '',
-      // poster: '',
-      // time: '',
-      user: this.props.user
+      user: this.props.user,
     };
     this.getSchedule = this.getSchedule.bind(this);
-
   }
 
   componentDidMount() {
     this.getSchedule();
+
   }
-
-
 
   getSchedule() {
     axios.get('/getSchedule', {
@@ -35,23 +27,14 @@ class SchedulePage extends React.Component {
 
       this.setState({
         schedule: results.data,
-        // invitees: results.data[0].invitees,
-        // movieTitle: results.data[0].movieTitle,
-        // poster: results.data[0].poster,
-        // time: results.data[0].time
+
       });
     }).catch((err) => {
       console.log(err);
     });
   }
 
-
   render() {
-    // let invitees = this.state.invitees.map((invitee) => {
-    //   return (
-    //     <li>{invitee}</li>
-    //   );
-    // });
     if (this.state.user === 'global') {
       return (
         <div>
@@ -60,19 +43,12 @@ class SchedulePage extends React.Component {
       );
     } else {
       return (
-        <div>Sched Page
-        <ScheduleEntry schedule={this.state.schedule}/>
-          {/* <ul>
-            {invitees}
-          </ul>
-          <p>{this.state.movieTitle}</p>
-          <img src={this.state.poster}/>
-          <p>{this.state.time}</p> */}
+        <div>
+          <ScheduleEntry getSchedule = {this.getSchedule} user={this.state.user} schedule={this.state.schedule}/>
         </div>
       );
     }
   }
 }
-
 
 export default SchedulePage;

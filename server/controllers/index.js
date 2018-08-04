@@ -11,8 +11,12 @@ let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
 const checkUser = require('./../db/index').checkUser;
 
+const declineSched = require('./../db/index').declineSched;
+const deleteFromAccepted = require('./../db/index').deleteFromAccepted;
+const deleteFromCancelled = require('./../db/index').deleteFromCancelled;
 const addSchedule = require('./../db/index').addSchedule;
 const getSchedule = require('./../db/index').getSchedule;
+const acceptSched = require('./../db/index').acceptSched;
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
@@ -240,7 +244,6 @@ app.get('/checkUser', (req, res) => {
 
 
 app.post('/updateSchedule', (req, res) => {
-  console.log('updateSched server fired');
   var title = req.body.movie.original_title;
   var poster = 'https://image.tmdb.org/t/p/w500' + req.body.movie.poster_path;
   var time = req.body.time;
@@ -250,11 +253,43 @@ app.post('/updateSchedule', (req, res) => {
   });
 });
 
+
 app.get('/getSchedule', (req, res) => {
   getSchedule(req.query.user, (results) => {
     res.send(results);
   });
 });
+
+app.post('/acceptSched', (req, res) => {
+  acceptSched(req.body.id, req.body.user, (results) => {
+    res.send(results);
+  });
+});
+
+app.post('/deleteCancelled', (req, res) => {
+  deleteFromCancelled(req.body.id, req.body.user, (results) => {
+    res.send(results);
+  });
+});
+
+
+app.post('/deleteAccepted', (req, res) => {
+  deleteFromAccepted(req.body.id, req.body.user, (results) => {
+    res.send(results);
+  });
+});
+
+
+app.post('/declineSched', (req, res) => {
+  declineSched(req.body.id, req.body.user, (results) => {
+    res.send(results);
+  });
+});
+
+
+
+
+
 
 
 

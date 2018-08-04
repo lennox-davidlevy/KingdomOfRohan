@@ -27,7 +27,7 @@ let signup = (info, cb) => {
 //in the moodArr and then passes the result into
 //the passed in callback cb
 let moodSearch = (moodArr, cb) => {
-  console.log ('moodArr: ', moodArr);
+
   if (!moodArr [1]) {moodArr[1] = moodArr[0]}
   if (!moodArr [2]) {moodArr[2] = moodArr[1]}
   Movie
@@ -161,7 +161,7 @@ const checkUser = (email, callback) => {
 }
 
 const addSchedule = (movieTitle, poster, time, invitees, callback) => {
-  console.log('addsched db fired');
+
   let newSchedule = new Schedule({
     movieTitle: movieTitle,
     poster: poster,
@@ -176,7 +176,7 @@ const addSchedule = (movieTitle, poster, time, invitees, callback) => {
 }
 
 const getSchedule = (user, callback) => {
-  console.log('getSchedFired!');
+
   Schedule.find({invitees: user}, (err, docs) => {
     if(err) {
       callback(err)
@@ -185,6 +185,69 @@ const getSchedule = (user, callback) => {
     }
   })
 }
+
+const acceptSched = (id, user, callback) => {
+  Schedule.findById(id, (err, sched) => {
+    if (err) callback(err);
+    sched.accepted.push(user);
+    sched.save((err, updated) => {
+      if (err) {
+        callback(err)
+      } else {
+        callback(updated);
+      }
+    })
+  })
+}
+
+const deleteFromCancelled = (id, user, callback) => {
+  console.log('deleteDB fired!')
+  Schedule.findByIdAndUpdate(id, {$pull:{cancelled:user}}, (err, result) => {
+    if(err) {
+      console.log(err)
+    } else {
+      console.log('delete result:', result);
+    }
+  })
+}
+
+const deleteFromAccepted = (id, user, callback) => {
+  console.log('deleteDB fired!')
+  Schedule.findByIdAndUpdate(id, {$pull:{accepted:user}}, (err, result) => {
+    if(err) {
+      console.log(err)
+    } else {
+      console.log('delete result:', result);
+    }
+  })
+}
+
+
+
+
+
+
+const declineSched = (id, user, callback) => {
+  Schedule.findById(id, (err, sched) => {
+    if (err) callback(err);
+    sched.cancelled.push(user);
+    sched.save((err, updated) => {
+      if (err) {
+        callback(err)
+      } else {
+        callback(updated);
+      }
+    })
+  })
+}
+
+
+
+
+
+
+
+
 
 //takes in a username (passed from server) and quries the db
 //hands back the history array from the received docs
@@ -207,3 +270,7 @@ module.exports.fetchHist = fetchHist
 module.exports.moodSearch = moodSearch
 module.exports.addSchedule = addSchedule
 module.exports.getSchedule = getSchedule
+module.exports.acceptSched = acceptSched
+module.exports.deleteFromCancelled = deleteFromCancelled
+module.exports.deleteFromAccepted = deleteFromAccepted
+module.exports.declineSched = declineSched
