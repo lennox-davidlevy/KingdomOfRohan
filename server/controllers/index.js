@@ -79,10 +79,21 @@ app.post('/save', (req, res) => {
 
 app.get('/csv/:mood?', (req, res) => {
   let mood = req.query.mood;
+  console.log('mood',mood)
+  pullDataFromCSV(`../data/${mood}.txt`, (err, data) => {
+    if (err) console.log(err);
+    else {
+      // data will be movies, books, plays, songs
+      // after split by '<>'
+      let results = {};
+      let splitData = data.split('<>');
 
-  pullDataFromCSV(`../data/movies/${mood}Movies.csv`, (err, data) => {
-    if (err) res.status(500).send(err);
-    else res.setMaxListeners(201).send(data);
+      results.movies = splitData[0];
+      results.books = splitData[1];
+      results.plays = splitData[2];
+      results.songs = splitData[3];
+      res.status(201).send(results);
+    }
   });
 });
 
