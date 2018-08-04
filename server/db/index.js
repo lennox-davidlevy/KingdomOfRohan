@@ -201,23 +201,23 @@ const acceptSched = (id, user, callback) => {
 }
 
 const deleteFromCancelled = (id, user, callback) => {
-  console.log('deleteDB fired!')
+
   Schedule.findByIdAndUpdate(id, {$pull:{cancelled:user}}, (err, result) => {
     if(err) {
       console.log(err)
     } else {
-      console.log('delete result:', result);
+      // console.log('delete result:', result);
     }
   })
 }
 
 const deleteFromAccepted = (id, user, callback) => {
-  console.log('deleteDB fired!')
+
   Schedule.findByIdAndUpdate(id, {$pull:{accepted:user}}, (err, result) => {
     if(err) {
       console.log(err)
     } else {
-      console.log('delete result:', result);
+      // console.log('delete result:', result);
     }
   })
 }

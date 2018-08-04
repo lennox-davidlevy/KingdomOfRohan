@@ -354,3 +354,88 @@ td.rdtYear:hover {
 img.movie-poster:hover {
   box-shadow: 10px 10px;
 }
+
+.button-box {
+    position: absolute;
+    left: 14%;
+    top: 50%;
+}
+
+.schedule-box {
+    position: relative;
+    left: 9%;
+}
+
+.invitees-box {
+    background-color: lightgrey;
+    width: 27%;
+    height: 23%;
+    border-style: solid;
+    border-width: 3px;
+    left: 44%;
+    position: absolute;
+    top: 17%;
+}
+
+
+
+
+
+.cancelled-box {
+    position: absolute;
+    left: 44%;
+    border-style: solid;
+    border-width: 3px;
+    top: 76%;
+    width: 27%;
+    height: 22%;
+}
+
+.accepted-box {
+    position: absolute;
+    left: 44%;
+    border-style: solid;
+    border-width: 3px;
+    top: 46%;
+    width: 27%;
+    height: 23%;
+}
+
+h1#movie-title {
+    font-family: monospace;
+    font-size: 40px;
+}
+
+h1#movie-time {
+    font-family: monospace;
+    font-size: 25px;
+}
+
+
+
+h1.invitees {
+    position: absolute;
+    left: 44%;
+    top: 13%;
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+h1.cancelleds {
+    position: absolute;
+    left: 44%;
+    top: 72%;
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+h1.accepteds {
+    position: absolute;
+    left: 44%;
+    top: 42%;
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bolder;
+}

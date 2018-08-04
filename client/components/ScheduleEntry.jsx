@@ -24,13 +24,16 @@ class ScheduleEntry extends React.Component {
       id: id,
       user: this.state.user
     }).then(()=> {
-      this.props.getSchedule()
+      this.props.getSchedule();
       this.setState({
         userAccepted: true,
         userDeclined: false
       });
+    }).catch(err => {
+      console.error(err);
     });
   }
+
 
 
   onDeclineClick(id) {
@@ -38,11 +41,13 @@ class ScheduleEntry extends React.Component {
       id: id,
       user: this.state.user
     }).then(()=> {
-      this.props.getSchedule()
+      this.props.getSchedule();
       this.setState({
         userAccepted: false,
         userDeclined: true
       });
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -50,60 +55,82 @@ class ScheduleEntry extends React.Component {
     axios.post('/deleteCancelled', {
       id: id,
       user: this.state.user
-    })
+    }).then(()=> {
+      this.props.getSchedule();
+      this.setState({
+        userDeclined: false
+      });
+    }).catch(err => {
+      console.error(err);
+    });
   }
+
   onDeleteAccepted(id) {
     axios.post('/deleteAccepted', {
       id: id,
       user: this.state.user
-    })
+    }).then(()=> {
+      this.props.getSchedule();
+      this.setState({
+        userAccepted: false,
+      });
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
 
 
 
   render() {
-    console.log('schedfromdb:', this.props.schedule)
+
     let entries = this.props.schedule.map((item) => {
       return (
         <div className="schedule-box">
-          <div className="invitees-box">
-            <ul id="invitee-ul">
-              {item.invitees.map((user) => {
-                return (
-                  <li id="invitee-li">{user}</li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className="accepted-box">
-            <ul id="accepted-ul">
-              Accepted!
-              {item.accepted.map((user) => {
-                return (
-                  <li id="accepted-li">{user}</li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className="cancelled-box">
-            <ul id="cancelled-ul">
-              Declined!
-              {item.cancelled.map((user) => {
-                return (
-                  <li id="cancelled-li">{user}</li>
-                );
-              })}
-            </ul>
+          <div className="boxtype">
+            <h1 className="invitees">Invitees</h1>
+            <div className="invitees-box">
+
+              <ul id="invitee-ul">
+                {item.invitees.map((user) => {
+                  return (
+                    <li id="invitee-li">{user}</li>
+                  );
+                })}
+              </ul>
+            </div>
+            <h1 className="accepteds">Accepted</h1>
+            <div className="accepted-box">
+              <ul id="accepted-ul">
+                
+                {item.accepted.map((user) => {
+                  return (
+                    <li id="accepted-li">{user}</li>
+                  );
+                })}
+              </ul>
+            </div>
+            <h1 className="cancelleds">Declined</h1>
+            <div className="cancelled-box">
+              <ul id="cancelled-ul">
+
+                {item.cancelled.map((user) => {
+                  return (
+                    <li id="cancelled-li">{user}</li>
+                  );
+                })}
+              </ul>
+            </div>
+
           </div>
           <h1 id="movie-title">{item.movieTitle}</h1>
           <h1 id="movie-time">{item.time}</h1>
           <img className="movie-poster" src={item.poster}/>
-          <a disabled={this.state.userAccepted} class="button is-primary" onClick={() => { this.onAcceptClick(item._id); this.onDeleteCancelled(item._id)}}>Accept</a>
-          <a disabled={this.state.userDeclined} class="button is-primary" onClick={() => { this.onDeclineClick(item._id); this.onDeleteAccepted(item._id)}}>Decline</a>
-          <a class="button is-primary" onClick={() => { this.onDeleteCancelled(item._id); this.onDeleteAccepted(item._id); this.props.getSchedule()}}>Not Sure</a>
-
-
+          <div className="button-box">
+            <a class="button is-primary" onClick={() => { this.onAcceptClick(item._id); this.onDeleteCancelled(item._id)}}>Accept</a>
+            <a class="button is-primary" onClick={() => { this.onDeclineClick(item._id); this.onDeleteAccepted(item._id)}}>Decline</a>
+            {/* <a class="button is-primary" onClick={() => { this.onDeleteCancelled(item._id); this.onDeleteAccepted(item._id); this.props.getSchedule()}}>Not Sure</a> */}
+          </div>
         </div>
       );
     });
@@ -111,6 +138,9 @@ class ScheduleEntry extends React.Component {
       <div>{entries}</div>
     );
   }
+
+
+
 }
 
 export default ScheduleEntry;
