@@ -52,6 +52,7 @@ class MovieCard extends React.Component {
                   movie={this.props.movie} 
                   moods={this.props.moods}
                 />
+                // <HoverComponent user={this.props.user} movie={this.props.movie} onHideOptions={this.onHideOptions}/>
               }
             </figure>
           </div>

@@ -275,7 +275,7 @@ app.get('/getSchedule', (req, res) => {
 
 app.get('/price', (req, res) => {
   axios.get('https://itunes.apple.com/search?term='+req.query.term+'&entity=movie')
-  .then(response => res.send(response.data));
+  .then(response => res.send(response.data.results));
 });
 
 
